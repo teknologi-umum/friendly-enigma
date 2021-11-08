@@ -1,13 +1,21 @@
 package main
 
 import (
+	// These are Go standard libraries.
 	"context"
 	"database/sql"
 	"log"
 	"net/http"
+
+	// These are packages from the directories that resides
+	// on current go module.
+	//
+	// See go.mod for the current module name.
 	"refrigerator/handlers"
 	"refrigerator/packages/migration"
 
+	// These are external packages.
+	// And these are valid Github repository URLs.
 	"github.com/go-chi/chi/v5"
 	// _ (underscore) in Go means the variable is ommited
 	// but whatever thing on the right hand side of the
@@ -33,6 +41,8 @@ func main() {
 	// the "return" keyword.
 	defer db.Close()
 
+	// This will run a migration to `CREATE TABLE IF EXISTS`
+	// for each of the tables
 	err = migration.Migrate(db, context.Background())
 	if err != nil {
 		log.Fatal(err)

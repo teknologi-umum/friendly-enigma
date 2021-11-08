@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"refrigerator/business"
-
-	"github.com/georgysavva/scany/sqlscan"
 )
 
 func (d *Deps) GetFood(w http.ResponseWriter, r *http.Request) {
@@ -18,25 +16,17 @@ func (d *Deps) GetFood(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
-	ctx := r.Context()
-	member, ok := ctx.Value("user").(business.Member)
-	if !ok {
+	id := r.URL.Query().Get("id")
+	if id != "" {
+		// Handle request if id was provided.
+		// Write a new function on /business/food.go
+		// that searches for a food by id.
 		return
 	}
 
-	rows, err := c.QueryContext(
-		r.Context(),
-		"SELECT * FROM refrigerator WHERE id = ?",
-		member.ID,
-	)
+	foods, err := business.GetAllFoods(c, r.Context())
 	if err != nil {
-		return
-	}
-	defer rows.Close()
-
-	var foods []business.Food
-	err = sqlscan.ScanAll(&foods, rows)
-	if err != nil {
+		// Write your own error handling logic!
 		return
 	}
 

@@ -7,9 +7,9 @@ import (
 )
 
 var member = business.Member{
-	ID: "169a88f9-fb2f-4121-b012-dde7796cd195",
+	ID:         "169a88f9-fb2f-4121-b012-dde7796cd195",
 	Permission: business.CREATE | business.READ,
-	Name: "Test",
+	Name:       "Test",
 }
 
 var secret = []byte("shh this is a secret")
@@ -32,7 +32,7 @@ func TestJWT(t *testing.T) {
 	if m.ID != member.ID {
 		t.Error("member id value is not equal, got:", m.ID)
 	}
-	
+
 	if m.Permission != member.Permission {
 		t.Error("member permission value is not equal, got:", m.Permission)
 	}
